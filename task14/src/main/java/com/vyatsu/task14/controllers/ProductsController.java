@@ -2,6 +2,7 @@ package com.vyatsu.task14.controllers;
 
 import com.vyatsu.task14.entities.Product;
 import com.vyatsu.task14.services.ProductsService;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,19 @@ public class ProductsController {
     public String editOneProduct(Model model, @PathVariable(value = "id") Long id) {
         Product product = productsService.getById(id);
         model.addAttribute("product", product);
+        return "edit";
+    }
+
+    @GetMapping("/add1")
+    public String addOneProduct(Model model) {
+        var product = productsService.getAllProducts();
+        long id = 0;
+        if (product.size() != 0){
+            id = product.get(product.size()-1).getId().longValue() + 1;
+        }
+        Product p1 = new Product();
+        p1.setId(id);
+        model.addAttribute("product", p1);
         return "edit";
     }
 }
